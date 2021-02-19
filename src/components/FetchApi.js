@@ -28,23 +28,28 @@ export default class FetchApi extends Component {
             .then((postData) => this.setPost(postData)); // Calling setUsers and passing the data.
     }
 
-    // addPost(e) {
-    //     e.preventDefault()
-    //     let title = document.getElementById('title').value;
-    //     let body = document.getElementById('body').value;
-    //     fetch('https://jsonplaceholder.typicode.com/posts', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/json , text/plain , */*',
-    //             'Content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ title: title, body: body })
+    addPost=(e)=> {
+      fetch('https://jsonplaceholder.typicode.com/posts', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json , text/plain , */*',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(this.state)
     
-    //     }).then((res) => res.json())
-    //     .then((data) => this.setAddPost(data))
-    // }
+        }).then((res) => res.json())
+        .then((data) => this.setAddPost(data))
+        e.preventDefault()
+    }
     
-
+    setAddPost=(data)=>{
+        const name=data.target.name
+        const value=data.target.value
+        this.setState({
+            [name]:value
+             },
+             )
+    }
   
     setUsers = (data) => {
         //created a new function to set the state of users
@@ -59,12 +64,12 @@ export default class FetchApi extends Component {
         })
     }
 
-    setAddPost=(addPostTitle,addPostBody)=>{
-        this.setState({
-            title:addPostTitle,
-            body:addPostBody
-        })
-    }
+   
+
+submitHandler=(e)=>{
+    e.preventDefault()
+    console.log(this.state.title,this.state.body)
+}
 
   //Create a functional component for rendering users 
     renderUser = () => {
@@ -80,33 +85,29 @@ export default class FetchApi extends Component {
         //we have removed join from here because in react everything is javascript and we are using JSX.
     }
 
-// renderNewPost=()=>{
-
-// }
-
     render() {
-        console.log(this.state.users)
+    
         return (
             <div>
                 <nav className="navBar">
                     <button onClick= {()=>this.fetchUserHandler()} className="btn" id="getUser">Fetch User</button>
                     <button onClick={this.fetchPostHandler} className="btn" id="getPost">Fetch Post</button>
                     <div>
-                        <button  onClick={this.addPost} className="btn" id="addPost1">Add Post</button></div>
+                        <button onClick={this.submitHandler} className="btn" id="addPost1">Add Post</button></div>
                 </nav>
                 <div id="output"> {this.renderPost()} {this.renderUser()} </div>
 
-                <form className="addPostForm messageInvisible">
+                <form onSubmit={this.addPost} className="addPostForm ">
                     <div className="postDiv">
                         <h3>Add Posts</h3>
                         <span className="notification messageInvisible">Post Added</span>
 
                     </div>
                     <div className="inputWrapper">
-                        <input type="text" id="title" placeholder="Title" />
-                        <input type="text" placeholder="Body" id="body" />
+                        <input onChange={this.setAddPost}  value={this.state.title} name="title" type="text" id="title" placeholder="Title" />
+                        <input onChange={this.setAddPost} value={this.state.body} type="text" name="body" placeholder="Body" id="body" />
                     </div>
-                    <button type="submit" id="submit">Submit</button>
+                    <button onClick={this.submitHandler}  type="submit" id="submit">Submit</button>
                 </form>
             </div>
 
