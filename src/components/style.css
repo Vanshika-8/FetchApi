@@ -11,6 +11,7 @@ use css variables throughout
     --addPostButton-color:#f19069;
     --border-color:grey;
     --inputAndSearchBorder-color:#cccccc;
+    --warning-color:red;
 }
 
 * {
@@ -152,6 +153,17 @@ body {
 
 .notification {
     background-color:var(--userButton-color);
+    color: var(--white);
+    width: 100%;
+    height: 2.5em;
+    border: none;
+    font-weight: 900;
+    margin-bottom: 10px;
+    text-align: inherit;
+    display: inline-block;
+}
+.notification__warning {
+    background-color:var(--warning-color);
     color: var(--white);
     width: 100%;
     height: 2.5em;
